@@ -40,7 +40,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your filters'),
-      ),
+      ),l
       // drawer: MainDrawer(
       //   onSelectScreen: (identifier) {
       //     Navigator.of(context).pop();
