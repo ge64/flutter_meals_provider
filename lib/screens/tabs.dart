@@ -7,6 +7,7 @@ import 'package:meals/screens/meals.dart';
 import 'package:meals/models/meal.dart';
 import 'package:meals/widgets/main_drawer.dart';
 import 'package:meals/providers/meals_provider.dart';
+import 'package:meals/providers/favorites_provider.dart';
 
 const kInitialFilters = {
   Filter.glutenFree: false,
@@ -36,22 +37,6 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
         content: Text(message),
       ),
     );
-  }
-
-  void _toggleMealFavoriteStatus(Meal meal) {
-    final isExisting = _favouriteMeals.contains(meal);
-
-    if (isExisting) {
-      setState(() {
-        _favouriteMeals.remove(meal);
-      });
-      _showInfoMessage('Meal is no longer in your favourites.');
-    } else {
-      setState(() {
-        _favouriteMeals.add(meal);
-      });
-      _showInfoMessage('Meal is now in your favourites!');
-    }
   }
 
   void _selectPage(int index) {
@@ -97,15 +82,14 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     }).toList();
 
     Widget activePage = CategoriesScreen(
-      onToggleFavorite: _toggleMealFavoriteStatus,
       availableMeals: availableMeals,
     );
     var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
+      final favoriteMeals = ref.watch(favoriteMealsProvider);
       activePage = MealsScreen(
-        meals: _favouriteMeals,
-        onToggleFavorite: _toggleMealFavoriteStatus,
+        meals: favoriteMeals,
       );
       activePageTitle = 'Your Favourites';
     }
